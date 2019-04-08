@@ -1,6 +1,7 @@
 version: '3'
 services:
   dante:
+    container_name: dante
     build: 
       context: ./dante
       args:
@@ -11,3 +12,14 @@ services:
     volumes:
       - ./dante/sockd.conf:/etc/sockd.conf
     restart: always
+
+  mtproto-proxy:
+    image: telegrammessenger/proxy:latest
+    container_name: mtproto-proxy
+    ports:
+      - "${MTPROTO_PORT}:443" 
+    restart: always
+    environment:
+      - SECRET=${MTPROTO_SECRET}
+      - SECRET_COUNT=1
+      - WORKERS=2
