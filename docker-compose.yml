@@ -1,0 +1,13 @@
+version: '3'
+services:
+  dante:
+    build: 
+      context: ./dante
+      args:
+        username: ${DANTE_USER}
+        password: ${DANTE_PASSWORD}
+    ports:
+      - "${DANTE_PORT}:1080"
+    volumes:
+      - ./dante/sockd.conf:/etc/sockd.conf
+    restart: always
