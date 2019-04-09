@@ -1,4 +1,4 @@
-FROM wernight/dante
+FROM wernight/dante:latest
 
 ARG username
 ARG password

@@ -1,5 +1,17 @@
 version: '3'
 services:
+
+  openvpn:
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn:latest
+    container_name: openvpn
+    ports:
+     - "${OPENVPN_PORT}:1194/udp"
+    restart: always
+    volumes:
+     - ${OPENVPN_DATA}:/etc/openvpn:rw
+
   dante:
     container_name: dante
     build: 
