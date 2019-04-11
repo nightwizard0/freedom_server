@@ -57,6 +57,8 @@ docker-compose run --rm openvpn ovpn_revokeclient $CLIENTNAME remove
 
 * Dante - прокси-сервер (SOCKS5, аутентификация по пользователю и паролю)
 * Mtproto Proxy - прокси-сервер для работы telegram
+* OpenVPN - сервис виртуальных частных сетей
+* Nextcloud - хранилище данных
 
 
 
