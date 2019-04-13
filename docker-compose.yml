@@ -4,12 +4,14 @@ services:
   db:
     image: postgres:alpine
     restart: always
-    container_name: nextcloud-db
+    container_name: db
     volumes:
+      - ./postgres:/docker-entrypoint-initdb.d/
       - ${DATABASE_VOLUME}:/var/lib/postgresql/data
     environment:
+      - POSTGRES_MULTIPLE_DATABASES=${DATABASES}
       - POSTGRES_USER=u_nextcloud
-      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
 
   nextcloud:
     image: nextcloud:fpm-alpine
@@ -20,8 +22,10 @@ services:
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_DB=nextcloud
-      - POSTGRES_USER=u_nextcloud
-      - POSTGRES_PASSWORD=${NEXTCLOUD_DB_PASSWORD}
+      - POSTGRES_USER=user_nextcloud
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
     depends_on:
       - db
   
@@ -32,10 +36,33 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ${NEXTCLOUD_VOLUME}:/var/www/html:ro
+      - ${WEB_VOLUME}:/var/www/html:ro
       - ./web/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - nextcloud
+      - gitserver
+
+  gitserver:
+    image: gitea/gitea:latest
+    restart: always
+    container_name: gitea
+    ports:
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:222:22"
+    volumes:
+      - ../gitea:/data
+    environment:
+      - ROOT_URL="http://127.0.0.1:8080/gitea/"
+      - USER_UID=1000
+      - USER_GID=1000
+      - DISABLE_REGISTRATION=true
+      - DB_TYPE=postgres
+      - DB_HOST=db:5432
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD=${DATABASE_PASSWORD}
+    depends_on:
+      - db
 
   openvpn:
     cap_add:
