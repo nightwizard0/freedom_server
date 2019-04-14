@@ -61,6 +61,7 @@ docker-compose run --rm openvpn ovpn_revokeclient $CLIENTNAME remove
 * Nextcloud - хранилище данных
 * Gitea - интерфейс для работы с репозиториями исходного кода
 * Transmission - торрент-клиент
+* Plex - медиа-сервер
 
 ## Пути веб-сервера
 

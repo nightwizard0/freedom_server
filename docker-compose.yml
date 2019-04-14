@@ -53,7 +53,7 @@ services:
     volumes:
       - ../gitea:/data
     environment:
-      - ROOT_URL="http://127.0.0.1:8080/gitea/"
+      - ROOT_URL="http://${SERVER_IP}:8080/gitea/"
       - USER_UID=1000
       - USER_GID=1000
       - DISABLE_REGISTRATION=true
@@ -73,9 +73,9 @@ services:
       - 51400:51413/tcp
       - 51400:51413/udp
     volumes:
-      - ../media/config:/config
-      - ../media/downloads:/downloads
-      - ../media/torrent:/watch
+      - ${TORRENT_CONFIG}:/var/lib/transmission-daemon/info
+      - ${MEDIA_DATA}:/var/lib/transmission-daemon/Downloads
+      - ${TORRENT_WATCH}:/var/lib/transmission-daemon/incomplete
     environment:
       - PGID=1000
       - PUID=1000
@@ -117,3 +117,19 @@ services:
       - SECRET=${MTPROTO_SECRET}
       - SECRET_COUNT=1
       - WORKERS=2
+
+  plex:
+    container_name: plex
+    hostname: plex
+    image: plexinc/pms-docker:latest
+    restart: always
+    network_mode: host
+    environment:
+      - TZ=Europe/Moscow
+      - ADVERTISE_IP=http://${SERVER_IP}:32400/
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ${MEDIA_CONFIG}:/config
+      - ${MEDIA_TMP}:/transcode
+      - ${MEDIA_DATA}:/Media
