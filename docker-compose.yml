@@ -40,9 +40,10 @@ services:
       - ./web/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - nextcloud
-      - gitserver
+      - gitea
+      - transmission
 
-  gitserver:
+  gitea:
     image: gitea/gitea:latest
     restart: always
     container_name: gitea
@@ -63,6 +64,24 @@ services:
       - DB_PASSWD=${DATABASE_PASSWORD}
     depends_on:
       - db
+    
+  transmission:
+    image: dperson/transmission:latest
+    container_name: transmission
+    ports:
+      - 127.0.0.1:9091:9091/tcp
+      - 51400:51413/tcp
+      - 51400:51413/udp
+    volumes:
+      - ../media/config:/config
+      - ../media/downloads:/downloads
+      - ../media/torrent:/watch
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/Moscow
+      - TRUSER=${TORRENT_USER}
+      - TRPASSWD=${TORRENT_PASSWORD}
 
   openvpn:
     cap_add:

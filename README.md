@@ -59,6 +59,14 @@ docker-compose run --rm openvpn ovpn_revokeclient $CLIENTNAME remove
 * Mtproto Proxy - прокси-сервер для работы telegram
 * OpenVPN - сервис виртуальных частных сетей
 * Nextcloud - хранилище данных
+* Gitea - интерфейс для работы с репозиториями исходного кода
+* Transmission - торрент-клиент
+
+## Пути веб-сервера
+
+* /nextcloud/ - облачное хранилище Nextcloud
+* /gitea/ - работа с репозиториями Gitea
+* /transmission/web - торрент клиент
 
 
 
