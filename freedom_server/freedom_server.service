@@ -6,8 +6,8 @@
     [Service]
     Restart=always
     WorkingDirectory=/opt/freedom_server
-    ExecStart=/usr/local/bin/docker-compose up
+    ExecStart=/opt/freedom_server/freedom_server_run.sh
     ExecStop=/usr/local/bin/docker-compose down
-    
+
     [Install]
     WantedBy=multi-user.target
