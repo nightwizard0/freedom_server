@@ -1,0 +1,27 @@
+logLevel = "ERROR"
+defaultEntryPoints = ["http", "https"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "racoondev.tk"
+watch = true
+exposedbydefault = false
+
+[acme]
+email = "rtservmail@mail.ru"
+storage = "acme.json"
+entryPoint = "https"
+
+[[acme.domains]]
+main = "racoondev.tk"
+
+[acme.httpChallenge]
+entryPoint = "https"
