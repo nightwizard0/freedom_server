@@ -44,6 +44,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/traefik.toml:/traefik.toml
+      - ${WEB_ACME_FILE}:/acme.json
 
   gitea:
     image: gitea/gitea:latest
@@ -55,6 +56,7 @@ services:
     volumes:
       - ${GIT_DATA}:/data
     environment:
+      - ROOT_URL="https://${SERVER_IP}/gitea/"
       - USER_UID=1000
       - USER_GID=1000
       - DISABLE_REGISTRATION=true
