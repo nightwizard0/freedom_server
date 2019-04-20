@@ -1,3 +1,4 @@
+logLevel = "ERROR"
 defaultEntryPoints = ["http", "https"]
 [entryPoints]
   [entryPoints.http]
@@ -7,17 +8,20 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
-      [[entryPoints.https.tls.certificates]]
-      certFile = "/certs/homeserver.crt"
-      keyFile = "/certs/homeserver.key"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "racoondev.tk"
+watch = true
+exposedbydefault = false
 
 [acme]
 email = "rtservmail@mail.ru"
 storage = "acme.json"
-caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
 entryPoint = "https"
-  [acme.httpChallenge]
-  entryPoint = "http"
 
 [[acme.domains]]
-  main = "racoondev.tk"
+main = "racoondev.tk"
+
+[acme.httpChallenge]
+entryPoint = "https"

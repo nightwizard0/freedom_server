@@ -27,6 +27,8 @@ services:
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
     labels:
+      - "traefik.enabled=true"
+      - "traefik.frontend=nextcloud"
       - "traefik.frontend.redirect.regex=^(.*)/nextcloud$$"
       - "traefik.frontend.redirect.replacement=$$1/nextcloud/"
       - "traefik.frontend.rule=PathPrefix: /nextcloud; ReplacePathRegex: ^/nextcloud/(.*) /$$1"
@@ -41,7 +43,6 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/certs:/certs
       - ./traefik/traefik.toml:/traefik.toml
 
   gitea:
@@ -57,12 +58,15 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - DISABLE_REGISTRATION=true
+      - REQUIRE_SIGNIN_VIEW=true
       - DB_TYPE=postgres
       - DB_HOST=db:5432
       - DB_NAME=gitea
       - DB_USER=gitea
       - DB_PASSWD=${DATABASE_PASSWORD}
     labels:
+      - "traefik.enabled=true"
+      - "traefik.frontend=nextcloud"
       - "traefik.frontend.redirect.regex=^(.*)/gitea$$"
       - "traefik.frontend.redirect.replacement=$$1/gitea/"
       - "traefik.frontend.rule=PathPrefix: /gitea; ReplacePathRegex: ^/gitea/(.*) /$$1"
