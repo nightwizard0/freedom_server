@@ -26,6 +26,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_USER}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${SERVER_DOMAIN}
     labels:
       - "traefik.enabled=true"
       - "traefik.frontend=nextcloud"
@@ -56,7 +57,8 @@ services:
     volumes:
       - ${GIT_DATA}:/data
     environment:
-      - ROOT_URL="https://${SERVER_IP}/gitea/"
+      - ROOT_URL="https://${SERVER_DOMAIN}/gitea/"
+      - APP_NAME="Gitea:My private Git repository"
       - USER_UID=1000
       - USER_GID=1000
       - DISABLE_REGISTRATION=true

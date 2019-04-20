@@ -66,15 +66,9 @@ docker-compose run --rm openvpn ovpn_revokeclient $CLIENTNAME remove
 
 ### Настройка Nextcloud
 
-После установки необходимо прописать в конфиге домен и rewrite пути:
+После установки необходимо прописать в конфиге rewrite пути:
 
 ```
- 'trusted_domains' => 
-  array (
-    0 => 'localhost',
-    1 => '80.240.31.39',
-    2 => 'racoondev.tk',
-  ),
   'overwritewebroot' => '/nextcloud',
 
 ```
