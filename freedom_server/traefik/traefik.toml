@@ -10,3 +10,14 @@ defaultEntryPoints = ["http", "https"]
       [[entryPoints.https.tls.certificates]]
       certFile = "/certs/homeserver.crt"
       keyFile = "/certs/homeserver.key"
+
+[acme]
+email = "rtservmail@mail.ru"
+storage = "acme.json"
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+entryPoint = "https"
+  [acme.httpChallenge]
+  entryPoint = "http"
+
+[[acme.domains]]
+  main = "racoondev.tk"
